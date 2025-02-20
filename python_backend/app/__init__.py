@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from app.routers import user_router
 from app.config.database import connect_to_mongo, close_mongo_connection
+import asyncio
 
 load_dotenv()
 

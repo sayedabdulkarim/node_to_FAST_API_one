@@ -15,7 +15,7 @@ class PyObjectId(ObjectId):
         return ObjectId(v)
 
 class UserModel(BaseModel):
-    id: Optional[PyObjectId] = Field(alias="_id")
+    id: Optional[PyObjectId] = Field(default=None, alias="_id")
     name: str
     email: EmailStr
     phone: str
@@ -25,6 +25,7 @@ class UserModel(BaseModel):
     class Config:
         json_encoders = {ObjectId: str}
         arbitrary_types_allowed = True
+        populate_by_name = True
 
 class UserLogin(BaseModel):
     phone: str

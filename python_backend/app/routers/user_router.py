@@ -3,7 +3,7 @@ from typing import Dict
 from bson import ObjectId
 from ..models.user import UserModel, UserLogin, UserCreate, UserResponse
 from ..utils.auth import create_access_token, verify_token
-from ..config.database import db
+from ..config.database import get_database
 
 router = APIRouter()
 
@@ -13,6 +13,7 @@ async def get_users():
 
 @router.post("/signup", response_model=Dict)
 async def user_signup(user: UserCreate):
+    db = get_database()
     # Check if user exists
     if await db.users.find_one({"phone": user.phone}):
         raise HTTPException(400, "User with this phone number already exists")
@@ -25,9 +26,9 @@ async def user_signup(user: UserCreate):
         email=user.email,
         phone=user.phone,
         favorites=[]
-    )
+    ).dict(exclude_none=True)
     
-    result = await db.users.insert_one(new_user.dict(exclude={'id'}))
+    result = await db.users.insert_one(new_user)
     token = create_access_token(str(result.inserted_id))
     
     return {
@@ -42,6 +43,7 @@ async def user_signup(user: UserCreate):
 
 @router.post("/login")
 async def user_login(user_data: UserLogin):
+    db = get_database()
     user = await db.users.find_one({"phone": user_data.phone})
     if not user:
         raise HTTPException(404, "User not found")
@@ -62,6 +64,7 @@ async def user_login(user_data: UserLogin):
 
 @router.get("/profile")
 async def get_user_profile(user_id: str = Depends(verify_token)):
+    db = get_database()
     user = await db.users.find_one({"_id": ObjectId(user_id)})
     if not user:
         raise HTTPException(404, "User not found")
@@ -77,6 +80,7 @@ async def update_user_profile(
     updated_data: dict = Body(...),
     user_id: str = Depends(verify_token)
 ):
+    db = get_database()
     user = await db.users.find_one({"_id": ObjectId(user_id)})
     if not user:
         raise HTTPException(404, "User not found")

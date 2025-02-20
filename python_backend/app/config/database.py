@@ -1,11 +1,11 @@
 import os
-from motor.motor_asyncio import AsyncIOMotorClient
+from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from dotenv import load_dotenv
 
 load_dotenv()
 
-mongo_client = None
-db = None
+mongo_client: AsyncIOMotorClient = None
+db: AsyncIOMotorDatabase = None
 
 async def connect_to_mongo():
     global mongo_client, db
@@ -14,7 +14,7 @@ async def connect_to_mongo():
     try:
         await mongo_client.admin.command('ping')
         print("Successfully connected to MongoDB!")
-        db = get_database()
+        db = mongo_client[os.getenv("MONGODB_DB", "swiggy_one")]
     except Exception as e:
         print(f"Error connecting to MongoDB: {e}")
         raise e
@@ -24,6 +24,7 @@ async def close_mongo_connection():
     if mongo_client:
         mongo_client.close()
 
-def get_database():
-    db_name = os.getenv("MONGODB_DB", "swiggy_one")
-    return mongo_client[db_name]
+def get_database() -> AsyncIOMotorDatabase:
+    if db is None:
+        raise Exception("Database not initialized")
+    return db
