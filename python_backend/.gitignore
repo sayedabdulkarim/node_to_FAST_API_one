@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.pdm-python
+.pdm.toml
+__pypackages__/
+.pytest_cache/
