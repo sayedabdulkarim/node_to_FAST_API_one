@@ -62,7 +62,7 @@ const Signup = ({
                 onChange={handleSingUpForm}
               />
               <div className="_2EeI1"></div>
-              <label className="_1Cvlf " htmlFor="name">
+              <label className="_1Cvlf _2tL9P " htmlFor="name">
                 Name
               </label>
             </div>
@@ -78,7 +78,7 @@ const Signup = ({
                 onChange={handleSingUpForm}
               />
               <div className="_2EeI1"></div>
-              <label className="_1Cvlf " htmlFor="email">
+              <label className="_1Cvlf _2tL9P " htmlFor="email">
                 Email
               </label>
             </div>
