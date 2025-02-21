@@ -1,13 +1,10 @@
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import UnAuthMobileScreen from "./mobile";
 import UnAuthWebScreen from "./web";
 import { isMobile } from "../../utils/unauthHelper";
 import { useTextCycle } from "../../hooks/useTextCycle";
-import { auth } from "../../config/firebase.config";
-//Store n api's Queries, Mutation
 import {
   useLoginMutation,
   useRegisterUserMutation,
@@ -92,45 +89,54 @@ const Index = () => {
       [e.target.name]: e.target.value,
     });
   };
-  //send OTP
+
+  // Remove Firebase related states and add dummy OTP
+  const [dummyOTP] = useState("123456"); // Hardcoded dummy OTP
+
+  // Replace the sendOtp function
   const sendOtp = async () => {
     setIsLoadingOtp(true);
     try {
-      const recaptcha = new RecaptchaVerifier(auth, "recaptcha", {
-        size: "invisible",
-        callback: (response) => {
-          // reCAPTCHA solved - you can proceed with OTP request
-        },
-      });
-
       const { phone } = loginFormData;
-      const formattedNumber = `+91${phone}`;
+      // Simulate API delay
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      const confirmation = await signInWithPhoneNumber(
-        auth,
-        formattedNumber,
-        recaptcha
+      handleShowAlert(
+        dispatch,
+        "success",
+        `Please use OTP: ${dummyOTP} (This is a dummy OTP)`
       );
-      if (confirmation?.verificationId) {
-        console.log("");
-        handleShowAlert(
-          dispatch,
-          "success",
-          "Please check your phone, we send the OTP."
-        );
-        setIsOtp(true);
-        setUser(confirmation);
-        setIsLoadingOtp(false);
-      }
-      console.log(confirmation, " conffff");
+      setIsOtp(true);
+      setIsLoadingOtp(false);
     } catch (error) {
-      console.log(error, " errorr");
       handleShowAlert(
         dispatch,
         "error",
-        "Something went wrong.Please try after sometime."
+        "Something went wrong. Please try after sometime."
       );
       setIsLoadingOtp(false);
+    }
+  };
+
+  // Replace the handleVerifyOtp function
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    setIsLoadingOtp(true);
+
+    try {
+      const { otp, phone } = loginFormData;
+
+      if (otp === dummyOTP) {
+        // If OTP matches, proceed with login
+        const formattedNumber = `+91${phone}`;
+        await handleLogInSubmit(formattedNumber);
+      } else {
+        handleShowAlert(dispatch, "error", "Invalid OTP");
+        setIsLoadingOtp(false);
+      }
+    } catch (error) {
+      setIsLoadingOtp(false);
+      handleShowAlert(dispatch, "error", "OTP verification failed");
     }
   };
 
@@ -138,23 +144,6 @@ const Index = () => {
     e.preventDefault();
     console.log(loginFormData, " loginFormData");
     sendOtp();
-  };
-
-  const handleVerifyOtp = async (e) => {
-    setIsLoadingOtp(true);
-    e.preventDefault();
-    try {
-      const { otp } = loginFormData;
-      const data = await user.confirm(otp);
-      console.log(data, " succesully login dataaaa");
-      // data.user.phoneNumber
-      if (data.user.phoneNumber) {
-        handleLogInSubmit(data.user.phoneNumber);
-      }
-    } catch (error) {
-      setIsLoadingOtp(false);
-      console.log(error, " eerr from opttt");
-    }
   };
 
   const handleLogInSubmit = async (phone) => {
