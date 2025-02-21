@@ -27,7 +27,7 @@ const OfferSchema = new mongoose.Schema({
 //offerSchema end
 
 const ItemSchema = new mongoose.Schema({
-  // id: String,
+  _id: { type: String }, // Add this line
   name: { type: String, required: true },
   description: String,
   imageId: String,
@@ -44,9 +44,11 @@ const ItemSchema = new mongoose.Schema({
   offers: [OfferSchema],
 });
 
+// Prevent Mongoose from creating _id for subdocuments
+ItemSchema.set("_id", false);
+
 const MenuCategorySchema = new mongoose.Schema({
   categoryName: { type: String, required: true },
-  // items: [{ type: ItemSchema, _id: false }],
   items: [{ type: ItemSchema }],
 });
 
