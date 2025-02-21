@@ -26,5 +26,8 @@
     "firebase": "^10.6.0",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }

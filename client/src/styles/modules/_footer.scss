@@ -1,0 +1,155 @@
+.footerContainer {
+    @media screen and (max-width: $md) {
+        display: none;
+    }
+    padding: 0 20px;
+    z-index: 10;
+    background-color: #000;
+    min-height: 298px;
+    width: 100%;
+    color: #fff;
+    overflow: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+        display: none
+    }
+    .foodBody {
+        @media screen and (max-width: 1200px) {
+            min-width: 90vw;
+            max-width: 90vw;
+            height: auto;
+            -ms-flex-direction: column;
+            flex-direction: column
+        }
+        max-width: 1200px;
+        min-width: 1200px;
+        position: relative;
+        margin: 0 auto;
+        padding-top: 76px;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        height: 100%;
+        .footerPart1 {
+            border-bottom: 1px solid #4D4D4D;
+            padding: 30px 0 40px;
+            >.baseFooter {
+                color: gray;
+                font-size: 15px;
+                text-transform: uppercase;
+                font-weight: 600;
+            }
+            >.pageFooter {
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-pack: justify;
+                justify-content: space-between;
+                -ms-flex-align: start;
+                align-items: flex-start;
+                >.groundLink {
+                    min-width: 300px;
+                    &:last-child {
+                        min-width: 200px;
+                    }
+                    @media (max-width: 1200px) {
+                        .groundLink,
+                        .groundLink:last-child {
+                            min-width: auto
+                        }
+                        .groundLink:not(:first-child) {
+                            margin-left: 8px;
+                        }
+                    }
+                    >.explore {
+                        list-style: none;
+                        text-transform: capitalize;
+                        color: inherit;
+                        font-size: 17px;
+                        margin-top: 15px;
+                        >.exploreLink {
+                            color: inherit;
+                            font-weight: 300;
+                            &:hover {
+                                font-weight: 500
+                            }
+                        }
+                        >.top {
+                            color: inherit;
+                            font-size: 17px;
+                            margin-top: 15px;
+                            display: block;
+                            &:first-child {
+                                margin-top: 15px;
+                            }
+                        }
+                    }
+                }
+                >.bottomLink {
+                    >.related {
+                        >.top {
+                            color: inherit;
+                            font-size: 17px;
+                            margin-top: 15px;
+                            display: block;
+                            &:first-child {
+                                margin-top: 15px;
+                                text-transform: capitalize;
+                                &:hover {
+                                    font-weight: 500
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        >.footerPart2 {
+            @media (max-width: 600px) {
+                -ms-flex-direction: column;
+                flex-direction: column
+            }
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+            -ms-flex-align: center;
+            align-items: center;
+            padding: 29px 0;
+            >.top {
+                @media (max-width: 600px) {
+                    margin-top: 20px
+                }
+                fill: #fff;
+                width: 142px
+            }
+            >.middle {
+                @media (max-width: 600px) {
+                    margin-top: 20px
+                }
+                -ms-flex-positive: 1;
+                flex-grow: 1;
+                text-align: center;
+                font-size: 20px;
+                letter-spacing: -.6px
+            }
+            >.bottom {
+                @media (max-width: 600px) {
+                    margin-top: 20px
+                }
+                >.footIcons {
+                    margin-left: 30px;
+                    display: inline-block;
+                    -ms-transform: scaleX(1);
+                    transform: scaleX(1);
+                    will-change: transform;
+                    transition: transform .5s cubic-bezier(.215, .61, .355, 1);
+                    &:hover {
+                        transform: scale3d(1.2, 1.2, 1);
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,208 @@
+.unauth_wrapper {
+    // border: 2px solid red;
+    width: 100%;
+    
+    .banner_section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        height: 540px;
+        .left_section {
+            width: 50%;
+            // border: 1px solid green;
+            height: 100%;
+            padding: 30px 80px;
+
+            .icon_section {
+                
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                img {
+                    // width: 125px;
+                    transition: transform .3s cubic-bezier(.23,1,.32,1) 0ms;             
+                    // margin-top: 92px;
+                }
+
+            }
+
+            .text_animation_section  {
+                h1 {
+                    transition: opacity 0.5s ease-in-out;
+                    opacity: 0;
+                    opacity: 1;
+                    margin-top: 60px;
+
+                }
+            }
+
+            .input_section {
+                .location-form {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                  }
+                  
+                  .input-group {
+                    display: flex;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    width: 100%;
+                    margin: 35px 0;
+                  }
+                  
+                  .location-input {
+                    flex-grow: 1;
+                    // padding: 10px;
+                    border: none;
+                    border-right: 1px solid #ccc;
+                  }
+                  
+                  .locate-btn {
+                    background: none;
+                    border: none;
+                    padding: 10px;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: #e9e9eb;
+                    }
+                  }
+                  
+                  .submit-btn {
+                    background-color: #fc8019;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 0 4px 4px 0;
+                    cursor: pointer;
+                    height: 58px;
+                    line-height: normal;
+                  }
+                  
+                  /* You may need additional styling to match the exact look from the image */
+                  
+            }
+
+        }
+        .right_section {
+            width: 50%;
+            // border: 1px solid yellow;
+            background-image: url(https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_1340/Lunch1_vlksgq);
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-color: hsla(26,5%,70%,.2);
+        }
+    }
+
+    // track section
+    .tracking_section {
+        background: #2B1E16;
+        padding: 0 20px;
+        .trackingBody {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            padding-bottom: 80px;
+            max-width: 1200px;
+            min-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            .items {
+                color: #fff;
+                text-align: center;
+                position: relative;
+                .trackImg {
+                    height: 250px;
+                    display: -ms-flexbox;
+                    display: flex;
+                    -ms-flex-align: end;
+                    align-items: flex-end;
+                    -ms-flex-pack: center;
+                    justify-content: center;
+                    .photo {
+                        margin-bottom: 42px;
+                    }
+                }
+                .trackHead {
+                    font-size: 20px;
+                    font-weight: 600;
+                    margin-top: 0;
+                }
+                .trackPara {
+                    font-size: 15px;
+                    width: 260px;
+                    margin-top: 10px;
+                    color: #E0CBC1;
+                    line-height: 1.3;
+                }
+            }
+        }
+    }
+
+    //download_section
+    .download_section {
+        padding: 0 20px;
+        height: 570px;
+        overflow: hidden;
+        .downloadBody {
+            max-width: 1200px;
+            min-width: 1200px;
+            position: relative;
+            margin: 0 auto;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -ms-flex-pack: center;
+            justify-content: center;
+            height: 100%;
+            .downloadPocket {
+                font-size: 40px;
+                font-weight: 600;
+                width: 300px;
+                line-height: 1;
+                letter-spacing: -.45px;
+            }
+            .downloadPara {
+                font-size: 20px;
+                width: 400px;
+                font-weight: 300;
+                padding-top: 20px;
+                padding-bottom: 60px;
+                color: #7E808C;
+                line-height: 1.2;
+            }
+            .downloadGoogle {
+                margin-right: 20px;
+                cursor: pointer;
+            }
+            .downloadApple {
+                cursor: pointer;
+            }
+            .downloadZone {
+                position: absolute;
+                top: 0;
+                right: 300px;
+            }
+            .downloadHub {
+                bottom: 0;
+                right: -45px;
+                position: absolute;
+            }
+        }
+    }
+
+    // @media screen and (max-width: $lg) {
+    //     border: 2px solid green;
+    // }
+    // @media screen and (max-width: $md) {
+    //     border: 2px solid yellow;
+    // }
+}
+
+
