@@ -35,3 +35,17 @@ dev = [
 start = "uvicorn app:app --reload"
 format = "black ."
 lint = "isort ."
+
+[tool.poetry]
+name = "python_backend"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <your.email@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "^0.68.0"
+motor = "^2.5.1"
+
+[tool.poetry.scripts]
+seed-restaurants = "app.data_insertion.all_restaurants:seed_restaurants"
