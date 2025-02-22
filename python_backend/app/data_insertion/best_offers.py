@@ -11,11 +11,10 @@ async def seed_best_offers():
         
         json_path = "app/dummy_data/bestOffersTable.json"
         with open(json_path, 'r') as file:
-            best_offers_data = json.load(file)
+            offers_data = json.load(file)
         
-        # Validate and convert data using Pydantic model
         validated_offers = []
-        for offer_data in best_offers_data:
+        for offer_data in offers_data:
             try:
                 offer = BestOffer(**offer_data)
                 validated_offers.append(offer.dict())
@@ -25,7 +24,6 @@ async def seed_best_offers():
                 continue
         
         if validated_offers:
-            # Drop existing collection to avoid duplicates
             await db.bestoffers.drop()
             result = await db.bestoffers.insert_many(validated_offers)
             print(f"Successfully inserted {len(result.inserted_ids)} offers")

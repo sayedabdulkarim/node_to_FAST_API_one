@@ -49,3 +49,5 @@ motor = "^2.5.1"
 
 [tool.poetry.scripts]
 seed-restaurants = "app.data_insertion.all_restaurants:seed_restaurants"
+seed-cuisines = "app.data_insertion.seed_cuisines:seed_cuisines"
+seed-offers = "app.data_insertion.best_offers:seed_best_offers"
