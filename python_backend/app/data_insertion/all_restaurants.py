@@ -3,30 +3,40 @@ import json
 from motor.motor_asyncio import AsyncIOMotorClient
 from bson import ObjectId
 from ..config.database import DATABASE_URL
+from ..models.restaurant import Restaurant
+from ..models.menu import Menu
+from typing import List
 
-# Sample admin user ID - you should replace this with a real admin ID
 DEFAULT_ADMIN_ID = ObjectId()
 
 async def seed_restaurants():
     try:
-        # Connect to MongoDB
         client = AsyncIOMotorClient(DATABASE_URL)
         db = client.get_default_database()
         
-        # Read restaurants from JSON file
         json_path = "../dummy_data/allRestaurantsTable.json"
         with open(json_path, 'r') as file:
             all_restaurants_data = json.load(file)
         
-        # Add admin user ID to each restaurant
-        restaurants_with_admin = [
-            {**restaurant, "adminUserId": DEFAULT_ADMIN_ID}
-            for restaurant in all_restaurants_data
-        ]
+        # Validate and convert data using Pydantic model
+        validated_restaurants = []
+        for restaurant_data in all_restaurants_data:
+            try:
+                # Add admin user ID to each restaurant
+                restaurant_data["adminUserId"] = DEFAULT_ADMIN_ID
+                # Validate using Restaurant model
+                restaurant = Restaurant(**restaurant_data)
+                validated_restaurants.append(restaurant.dict())
+            except Exception as e:
+                print(f"Validation error for restaurant: {restaurant_data.get('name', 'Unknown')}")
+                print(f"Error: {str(e)}")
+                continue
         
-        # Insert restaurants
-        result = await db.restaurants.insert_many(restaurants_with_admin)
-        print(f"Successfully inserted {len(result.inserted_ids)} restaurants")
+        if validated_restaurants:
+            result = await db.restaurants.insert_many(validated_restaurants)
+            print(f"Successfully inserted {len(result.inserted_ids)} restaurants")
+        else:
+            print("No valid restaurants to insert")
         
     except FileNotFoundError:
         print(f"Error: JSON file not found at {json_path}")
