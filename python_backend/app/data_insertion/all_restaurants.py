@@ -3,7 +3,7 @@ import json
 from motor.motor_asyncio import AsyncIOMotorClient
 from bson import ObjectId
 from ..config.database import DATABASE_URL
-from ..models.restaurant import Restaurant
+from ..models.all_restaurant import Restaurant
 from ..models.menu import Menu
 from typing import List
 
