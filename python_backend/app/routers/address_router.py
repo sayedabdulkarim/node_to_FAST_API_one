@@ -14,6 +14,7 @@ async def add_address(
 ):
     db = get_database()
     
+    # Create new address document
     new_address = AddressModel(
         user=ObjectId(user_id),
         address=address_data.address,
@@ -23,16 +24,20 @@ async def add_address(
         type=address_data.type
     ).dict(exclude_none=True)
     
-    result = await db.addresses.insert_one(new_address)
+    # Create geospatial index for location field
     await db.addresses.create_index([("location", "2dsphere")])
     
+    # Insert the new address
+    result = await db.addresses.insert_one(new_address)
+    
+    # Fetch and return the created address
     created_address = await db.addresses.find_one({"_id": result.inserted_id})
     created_address["_id"] = str(created_address["_id"])
     created_address["user"] = str(created_address["user"])
     
-    return {"status": "success", "data": created_address}
+    return {"status": "success", "message": "Address added successfully", "data": created_address}
 
-@router.get("/user")
+@router.get("/all")
 async def get_user_addresses(user_id: str = Depends(verify_token)):
     db = get_database()
     addresses = []
@@ -45,14 +50,58 @@ async def get_user_addresses(user_id: str = Depends(verify_token)):
     return {"status": "success", "data": addresses}
 
 @router.delete("/{address_id}")
-async def delete_address(address_id: str, user_id: str = Depends(verify_token)):
+async def delete_address(
+    address_id: str, 
+    user_id: str = Depends(verify_token)
+):
     db = get_database()
-    result = await db.addresses.delete_one({
+    
+    # Verify address exists and belongs to user
+    address = await db.addresses.find_one({
         "_id": ObjectId(address_id),
         "user": ObjectId(user_id)
     })
     
-    if result.deleted_count == 0:
+    if not address:
         raise HTTPException(status_code=404, detail="Address not found")
     
+    # Delete the address
+    await db.addresses.delete_one({
+        "_id": ObjectId(address_id),
+        "user": ObjectId(user_id)
+    })
+    
     return {"status": "success", "message": "Address deleted successfully"}
+
+@router.put("/{address_id}")
+async def update_address(
+    address_id: str,
+    address_data: AddressCreate,
+    user_id: str = Depends(verify_token)
+):
+    db = get_database()
+    
+    # Verify address exists and belongs to user
+    address = await db.addresses.find_one({
+        "_id": ObjectId(address_id),
+        "user": ObjectId(user_id)
+    })
+    
+    if not address:
+        raise HTTPException(status_code=404, detail="Address not found")
+    
+    # Update the address
+    update_data = address_data.dict(exclude_none=True)
+    update_data["updated_at"] = datetime.now()
+    
+    await db.addresses.update_one(
+        {"_id": ObjectId(address_id)},
+        {"$set": update_data}
+    )
+    
+    # Fetch and return updated address
+    updated_address = await db.addresses.find_one({"_id": ObjectId(address_id)})
+    updated_address["_id"] = str(updated_address["_id"])
+    updated_address["user"] = str(updated_address["user"])
+    
+    return {"status": "success", "message": "Address updated successfully", "data": updated_address}

@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from app.routers import user_router, address_router, home_router
-from app.config.database import connect_to_mongo, close_mongo_connection
+from app.routers import user_router, address_router, home_router, cart_router
 import asyncio
 
 load_dotenv()
@@ -28,6 +27,7 @@ async def shutdown_event():
 app.include_router(user_router.router, prefix="/api/users", tags=["users"])
 app.include_router(address_router.router, prefix="/api/addresses", tags=["addresses"])
 app.include_router(home_router.router, prefix="/api/home", tags=["home"])
+app.include_router(cart_router.router, prefix="/api/users", tags=["cart"])
 
 @app.get("/")
 async def read_root():
