@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from app.routers import user_router, address_router, home_router, cart_router
+from app.routers import user_router, address_router, home_router, cart_router, restaurant_router
 import asyncio
 
 load_dotenv()
@@ -28,6 +28,7 @@ app.include_router(user_router.router, prefix="/api/users", tags=["users"])
 app.include_router(address_router.router, prefix="/api/addresses", tags=["addresses"])
 app.include_router(home_router.router, prefix="/api/home", tags=["home"])
 app.include_router(cart_router.router, prefix="/api/users", tags=["cart"])
+app.include_router(restaurant_router.router, prefix="/api/users", tags=["restaurants"])
 
 @app.get("/")
 async def read_root():
